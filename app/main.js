@@ -2,6 +2,7 @@ const seats = getElementsWithClass("seat");
 const couponApplyButton = getElementWithId("coupon_apply_button");
 const phoneNumberInput = getElementWithId("phone_number");
 const continueButton = getElementWithId("continue");
+const buyTicketsButton = getElementWithId("buy_tickets");
 const couponCodefifteen = "NEW15";
 const couponCodeTwenty = "Couple 20";
 phoneNumberInput.addEventListener("input", function (e) {
@@ -97,4 +98,8 @@ couponApplyButton.addEventListener("click", function () {
     alert("Coupon Code Invalid!!");
     couponInput.value = "";
   }
+});
+
+buyTicketsButton.addEventListener("click", function (e) {
+  e.target.href = "#paribahan";
 });
