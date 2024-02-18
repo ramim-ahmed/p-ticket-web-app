@@ -1,13 +1,33 @@
 const seats = getElementsWithClass("seat");
 const couponApplyButton = getElementWithId("coupon_apply_button");
+const phoneNumberInput = getElementWithId("phone_number");
+const continueButton = getElementWithId("continue");
 const couponCodefifteen = "NEW15";
 const couponCodeTwenty = "Couple 20";
+phoneNumberInput.addEventListener("input", function (e) {
+  const counting = getElementWithId("counting").innerText;
+  passengerNumber = e.target.value;
+  if (e.target.value && Number(counting) > 0) {
+    const nextButton = getElementWithId("next_button");
+    nextButton.disabled = false;
+  }
+});
+
+function bookedSeat(id) {
+  const bookedSeatElement = getElementWithId(id);
+  bookedSeatElement.disabled = true;
+  if (bookedSeatElement.disabled === true) {
+    bookedSeatElement.style.background = "#1DD100";
+    bookedSeatElement.style.color = "#ffffff";
+  }
+}
 for (const seat of seats) {
   seat.addEventListener("click", function (e) {
     const ticketNumber = e.target.innerText;
     const counting = getElementWithId("counting");
     if (Number(counting.innerText) < 4) {
       appendSelectionTicket(ticketNumber);
+      bookedSeat(ticketNumber);
       const totalPrice = getElementWithId("total_price");
       setInnetText(totalPrice, Number(totalPrice.innerText) + 550);
       const counting = getElementWithId("counting");
@@ -17,6 +37,9 @@ for (const seat of seats) {
       setInnetText(grand_total, grand_total_amount);
       const totalSeat = getElementWithId("total_seat");
       setInnetText(totalSeat, Number(totalSeat.innerText) - 1);
+      if (Number(counting.innerText) === 4) {
+        couponApplyButton.disabled = false;
+      }
     } else {
       alert("Ticket buying over! maximum buy 4 tickets");
     }
@@ -52,8 +75,11 @@ couponApplyButton.addEventListener("click", function () {
     setInnetText(grandTotalElement, grandTotal);
     const couponContainer = getElementWithId("coupon_container");
     couponContainer.classList.add("hidden");
-  }
-  if (counponInputUserValue === couponCodeTwenty) {
+    const discountAmountContainer = getElementWithId(
+      "discount_amount_container"
+    );
+    discountAmountContainer.classList.remove("hidden");
+  } else if (counponInputUserValue === couponCodeTwenty) {
     const totalPrice = getElementWithId("total_price");
     const discount_amount = (Number(totalPrice.innerText) * 20) / 100;
     const discountElement = getElementWithId("discount_amount");
@@ -63,5 +89,12 @@ couponApplyButton.addEventListener("click", function () {
     setInnetText(grandTotalElement, grandTotal);
     const couponContainer = getElementWithId("coupon_container");
     couponContainer.classList.add("hidden");
+    const discountAmountContainer = getElementWithId(
+      "discount_amount_container"
+    );
+    discountAmountContainer.classList.remove("hidden");
+  } else {
+    alert("Coupon Code Invalid!!");
+    couponInput.value = "";
   }
 });
